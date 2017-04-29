@@ -6,6 +6,25 @@ function getArticles(query, cb) {
     .then(cb);
 }
 
+function postNewArticle(payload, cb) {
+  return fetch("/articles/add", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  }).then(checkStatus)
+    .then(cb);
+}
+
+function deleteArticle(mongoId, cb) {
+  console.log('Client :: deleteArticle', mongoId);
+  return fetch("/articles/delete/" + mongoId, {
+    method: "DELETE"
+  }).then(checkStatus)
+    .then(cb);
+}
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -22,5 +41,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { getArticles };
+const Client = { getArticles, postNewArticle, deleteArticle };
 export default Client;

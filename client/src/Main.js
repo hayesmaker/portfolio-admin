@@ -1,32 +1,35 @@
 import React from 'react';
-import './App.css';
+import './Main.css';
+import AppBar from 'material-ui/AppBar';
 import Articles from './Articles';
 import Client from './Client';
 
-let App = React.createClass({
+let Main = React.createClass({
   getInitialState() {
-    return {articles: []}
+    return null;
+  },
+
+  getArticles() {
+    Client.getArticles('', (response)=>{
+      this.refs.articlesTable.setState({articles: response});
+    });
   },
 
   componentWillMount() {
-    Client.getArticles('', (response)=>{
-      this.setState({articles: response});
-    });
+    this.getArticles();
   },
 
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <h2>Hayesmaker Portfolio Admin</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Articles articles={this.state.articles}/>
+        <AppBar
+          title="Hayesmaker Administration"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+        <Articles ref="articlesTable" getArticles={this.getArticles} />
       </div>
     );
   }
 });
 
-export default App;
+export default Main;

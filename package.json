@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"npm run db\" \"npm run server\" \"npm run client\"",
+    "db": "mongod --dbpath ./data",
     "server": "pm2 start ./bin/www --watch",
     "client": "babel-node start-client.js"
   },
@@ -12,11 +13,12 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
-    "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
-    "concurrently": "^3.1.0"
+    "concurrently": "^3.1.0",
+    "mongodb": "^2.2.21",
+    "monk": "^3.1.3"
   }
 }

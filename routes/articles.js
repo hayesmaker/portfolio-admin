@@ -222,13 +222,63 @@ var articles = [
   }
 ];
 
-/* GET users listing. */
+/* GET '/articles' list */
 router.get('/', function(req, res, next) {
-  res.json(articles);
+
+  let db = req.db;
+  let collection = db.get('articlescollection');
+  collection.find({},{},function(e,docs){
+    console.log('articlescollection = ', docs);
+    res.json(docs);
+  });
+
+
+});
+
+
+router.get('/raw', function(req, res) {
+   res.json(articles);
+});
+
+router.delete('/delete/:id', function(req, res) {
+  let id = req.params.id;
+  let db = req.db;
+  let collection = db.get('articlescollection');
+  collection.remove({'_id':id},function() {
+    res.sendStatus(202);
+  });
 });
 
 router.get('/test', function(req, res) {
   res.json({gofuck:"myself"});
 });
+
+
+/* POST to Add a Project Article*/
+router.post('/add', function(req, res) {
+  let db = req.db;
+  let article = {
+    "title": req.body.title,
+    "date": req.body.date,
+    "company": req.body.company,
+    "desc": req.body.desc,
+    "link": req.body.link,
+    "thumb": {
+      "src": req.body.thumbSrc,
+      "size": req.body.thumbSize
+    }
+  };
+  let collection = db.get('articlescollection');
+  collection.insert(article, function (err, doc) {
+    if (err) {
+      res.send("There was a problem adding the information to the database.");
+    }
+    else {
+      console.log('article added successfully', doc);
+      res.sendStatus(200);
+    }
+  });
+});
+
 
 module.exports = router;
