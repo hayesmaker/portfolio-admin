@@ -14,19 +14,6 @@ let App = React.createClass({
     });
   },
 
-  getArticles() {
-    return fetch('/articles/', {
-      accept: 'application/json',
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({articles: responseJson});
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  },
-
   render() {
     return (
       <div className="App">
