@@ -24,14 +24,15 @@ const DeleteForeverIcon = (props) => (
 
 const limitLength = (str, length) => str.substring(0, length);
 
-class Articles extends Component {
-  constructor(props) {
-    super(props);
+export default class Articles extends Component {
+  constructor(...args) {
+    super(...args);
     this.handleRowSelection = this.handleRowSelection.bind(this);
+    this.deleteCurrentRecord = this.deleteCurrentRecord.bind(this);
     this.state = {
       shouldShowDelete: false,
       articles: []
-    }
+    };
   }
 
   handleRowSelection(rows) {
@@ -117,5 +118,3 @@ class Articles extends Component {
     )
   }
 }
-
-export default Articles;
