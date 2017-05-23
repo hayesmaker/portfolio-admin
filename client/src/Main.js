@@ -16,6 +16,7 @@ export default class Main extends React.Component {
 
   getArticles() {
     Client.getArticles('', (response) => {
+      console.log('Main :: getArticles', response);
       this.refs.articlesTable.setState({articles: response});
     });
   }

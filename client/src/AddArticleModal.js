@@ -100,7 +100,7 @@ export default class AddArticleModal extends React.Component {
           modal={true}
           open={this.state.open}
         >
-          <div class="row">
+          <div className="row">
             <TextField
               name="title"
               value={this.state.title}
@@ -114,7 +114,7 @@ export default class AddArticleModal extends React.Component {
               onChange={this.handleFormChange.bind(this)}
             />
           </div>
-          <div class="row">
+          <div className="row">
             <TextField
               name="company"
               value={this.state.company}
@@ -132,7 +132,7 @@ export default class AddArticleModal extends React.Component {
               onChange={this.handleFormChange.bind(this)}
             />
           </div>
-          <div class="row">
+          <div className="row">
             <TextField
               name="link"
               value={this.state.link}

@@ -31,24 +31,46 @@ export default class Articles extends Component {
     this.deleteCurrentRecord = this.deleteCurrentRecord.bind(this);
     this.state = {
       shouldShowDelete: false,
-      articles: []
+      articles: [],
+      currentRecordId: 0
     };
+
+    console.log('Articles :: constructor :: this.state', this.state);
   }
 
   handleRowSelection(rows) {
-    if (rows.length) {
-      let mongoId = this.state.articles[rows[0]]._id;
-      console.log('Articles :: handleRowSelection', rows, mongoId);
+    let index = rows[0];
+    if (index >= 0) {
+      let mongoId = this.state.articles[index]._id;
       this.setState({
         shouldShowDelete: true,
         currentRecordId: mongoId
+      }, () => {
+        this.tableBody.setState({ selectedRows: rows });
       });
+
+      //debugger;
     } else {
+      this.setState({
+        shouldShowDelete: false,
+        currentRecordId: 0
+      }, () => {
+        this.tableBody.setState({ selectedRows: rows });
+      });
+    }
+    /*
+    if (rows.length) {
+      let mongoId = this.state.articles[rows[0]]._id;
+      console.log('Articles :: handleRowSelection', event, rows, mongoId);
+
+    } else {
+      console.log('Articles :: off');
       this.setState({
         shouldShowDelete: false,
         currentRecordId: null
       });
     }
+    */
   }
 
   deleteCurrentRecord() {
@@ -88,6 +110,7 @@ export default class Articles extends Component {
           Welcome to my portfolio projects administration table.  You can add, remove, and edit my portfolio arti les.
           This uses Express and React Template available here: <a href="https://github.com/hayesmaker/react-express-template" style={style}>React Express Template</a>
         </CardText>
+
         <Table onRowSelection={this.handleRowSelection}>
           <TableHeader>
             <TableRow>
@@ -99,7 +122,7 @@ export default class Articles extends Component {
               <TableHeaderColumn>LINK</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody ref={(tableBody) => { this.tableBody = tableBody; }}>
             {
               this.state.articles.map((article, idx) => (
                 <TableRow key={idx}>
