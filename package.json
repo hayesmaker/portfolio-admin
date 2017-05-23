@@ -1,6 +1,6 @@
 {
   "name": "portfolio-admin",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "concurrently \"npm run db\" \"npm run server\" \"npm run client\"",
