@@ -95,16 +95,20 @@ export default class Articles extends Component {
           subtitle="Based on https://github.com/hayesmaker/react-express-template"
         />
         <CardActions>
-          <FloatingActionButton mini={true} onTouchTap={() => this.refs.myDialog.handleOpen()}>
-            <ContentAdd />
-          </FloatingActionButton>
-          {
-            this.state.shouldShowDelete?
-              <IconButton tooltip="Delete Project" onTouchTap={() => this.deleteCurrentRecord()}>
-                <DeleteForeverIcon fill="white" />
-              </IconButton>: null
-          }
-
+            <div className="row" style={{
+              height: '60px'
+            }}>
+              <FloatingActionButton mini={true} onTouchTap={() => this.refs.myDialog.handleOpen()}>
+                <ContentAdd/>
+              </FloatingActionButton>
+              {
+                this.state.shouldShowDelete?
+                  <IconButton
+                    tooltip="Delete Project" onTouchTap={() => this.deleteCurrentRecord()}>
+                    <DeleteForeverIcon fill="white" />
+                  </IconButton> : null
+              }
+            </div>
         </CardActions>
         <CardText expandable={true}>
           Welcome to my portfolio projects administration table.  You can add, remove, and edit my portfolio arti les.
