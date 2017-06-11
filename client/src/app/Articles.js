@@ -7,12 +7,11 @@ import './Articles.css';
 import AddArticleModal from './AddArticleModal';
 import IconButton from 'material-ui/IconButton';
 import SvgIcon from 'material-ui/SvgIcon';
-import Client from './Client';
+import {deleteArticle, getArticles} from './Client';
 
 const style = {
   color: 'white',
 };
-
 
 const DeleteForeverIcon = (props) => (
   <SvgIcon {...props}>
@@ -25,8 +24,8 @@ const DeleteForeverIcon = (props) => (
 const limitLength = (str, length) => str.substring(0, length);
 
 export default class Articles extends Component {
-  constructor(...args) {
-    super(...args);
+  constructor(props) {
+    super(props);
     this.handleRowSelection = this.handleRowSelection.bind(this);
     this.deleteCurrentRecord = this.deleteCurrentRecord.bind(this);
     this.state = {
@@ -34,8 +33,13 @@ export default class Articles extends Component {
       articles: [],
       currentRecordId: 0
     };
+  }
 
-    console.log('Articles :: constructor :: this.state', this.state);
+  /**
+   *
+   */
+  componentDidMount() {
+    this.fetchArticles();
   }
 
   handleRowSelection(rows) {
@@ -48,8 +52,6 @@ export default class Articles extends Component {
       }, () => {
         this.tableBody.setState({ selectedRows: rows });
       });
-
-      //debugger;
     } else {
       this.setState({
         shouldShowDelete: false,
@@ -58,26 +60,20 @@ export default class Articles extends Component {
         this.tableBody.setState({ selectedRows: rows });
       });
     }
-    /*
-    if (rows.length) {
-      let mongoId = this.state.articles[rows[0]]._id;
-      console.log('Articles :: handleRowSelection', event, rows, mongoId);
-
-    } else {
-      console.log('Articles :: off');
-      this.setState({
-        shouldShowDelete: false,
-        currentRecordId: null
-      });
-    }
-    */
   }
 
   deleteCurrentRecord() {
     console.log('deleteCurrent');
-    Client.deleteArticle(this.state.currentRecordId, (res) => {
+    deleteArticle(this.state.currentRecordId).then((res) => {
       console.log('record deleted', res);
-      this.props.getArticles.call();
+      this.fetchArticles();
+    });
+  }
+
+  fetchArticles() {
+    getArticles('').then((response) => {
+      console.log('Main :: getArticles', response);
+      this.setState({articles: response});
     });
   }
 
@@ -89,7 +85,7 @@ export default class Articles extends Component {
   render() {
     return (
       <Card>
-        <AddArticleModal ref="myDialog" confirm={this.props.getArticles} />
+        <AddArticleModal ref="myDialog" confirm={this.fetchArticles.bind(this)} />
         <CardHeader
           title="Published Work History"
           subtitle="Based on https://github.com/hayesmaker/react-express-template"

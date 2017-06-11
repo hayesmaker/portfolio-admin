@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import Client from './Client';
+import {postNewArticle} from './Client';
 
 export default class AddArticleModal extends React.Component {
 
@@ -72,7 +72,7 @@ export default class AddArticleModal extends React.Component {
         size: '640x480'
       }
     };
-    Client.postNewArticle(payload, () => {
+    postNewArticle(payload).then(() => {
       this.props.confirm.call();
       this.resetForm();
     });
