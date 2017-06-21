@@ -6,7 +6,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 
-describe('(Main) ', function() {
+describe('(Main Test) ', function() {
   let _component;
 
   it('Component should render with no error', () => {

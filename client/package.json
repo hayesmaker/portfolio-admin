@@ -20,7 +20,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom --verbose",
+    "test:cover": "npm test -- --coverage",
+    "test:coverage": "npm run test:cover",
     "eject": "react-scripts eject"
   }
 }

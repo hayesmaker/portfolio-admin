@@ -24,6 +24,13 @@ const DeleteForeverIcon = (props) => (
 const limitLength = (str, length) => str.substring(0, length);
 
 export default class Articles extends Component {
+  /**
+   * Articles component constructor
+   * - Sets state and function binds
+   *
+   * @constructor
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.handleRowSelection = this.handleRowSelection.bind(this);
@@ -36,12 +43,19 @@ export default class Articles extends Component {
   }
 
   /**
+   * Simply calls fetch Articles necessary to render the component.
    *
+   *
+   * @method componentDidMount
    */
   componentDidMount() {
     this.fetchArticles();
   }
 
+  /**
+   * @method handleRowSelection
+   * @param rows
+   */
   handleRowSelection(rows) {
     let index = rows[0];
     if (index >= 0) {
@@ -62,18 +76,24 @@ export default class Articles extends Component {
     }
   }
 
+  /**
+   * @method deleteCurrentRecord
+   */
   deleteCurrentRecord() {
-    console.log('deleteCurrent');
-    deleteArticle(this.state.currentRecordId).then((res) => {
-      console.log('record deleted', res);
+    deleteArticle(this.state.currentRecordId).then(() => {
       this.fetchArticles();
     });
   }
 
+  /**
+   * Responsible for calling Client.getArticles and setting the articles state to the
+   * response result.
+   *
+   * @method fetchArticles
+   */
   fetchArticles() {
-    getArticles('').then((response) => {
-      console.log('Main :: getArticles', response);
-      this.setState({articles: response});
+    getArticles('').then((articles) => {
+      this.setState({articles: articles});
     });
   }
 
