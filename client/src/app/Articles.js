@@ -7,12 +7,11 @@ import './Articles.css';
 import AddArticleModal from './AddArticleModal';
 import IconButton from 'material-ui/IconButton';
 import SvgIcon from 'material-ui/SvgIcon';
-import Client from './Client';
+import {deleteArticle, getArticles} from './Client';
 
 const style = {
   color: 'white',
 };
-
 
 const DeleteForeverIcon = (props) => (
   <SvgIcon {...props}>
@@ -25,8 +24,15 @@ const DeleteForeverIcon = (props) => (
 const limitLength = (str, length) => str.substring(0, length);
 
 export default class Articles extends Component {
-  constructor(...args) {
-    super(...args);
+  /**
+   * Articles component constructor
+   * - Sets state and function binds
+   *
+   * @constructor
+   * @param props
+   */
+  constructor(props) {
+    super(props);
     this.handleRowSelection = this.handleRowSelection.bind(this);
     this.deleteCurrentRecord = this.deleteCurrentRecord.bind(this);
     this.state = {
@@ -34,10 +40,22 @@ export default class Articles extends Component {
       articles: [],
       currentRecordId: 0
     };
-
-    console.log('Articles :: constructor :: this.state', this.state);
   }
 
+  /**
+   * Simply calls fetch Articles necessary to render the component.
+   *
+   *
+   * @method componentDidMount
+   */
+  componentDidMount() {
+    this.fetchArticles();
+  }
+
+  /**
+   * @method handleRowSelection
+   * @param rows
+   */
   handleRowSelection(rows) {
     let index = rows[0];
     if (index >= 0) {
@@ -48,8 +66,6 @@ export default class Articles extends Component {
       }, () => {
         this.tableBody.setState({ selectedRows: rows });
       });
-
-      //debugger;
     } else {
       this.setState({
         shouldShowDelete: false,
@@ -58,26 +74,26 @@ export default class Articles extends Component {
         this.tableBody.setState({ selectedRows: rows });
       });
     }
-    /*
-    if (rows.length) {
-      let mongoId = this.state.articles[rows[0]]._id;
-      console.log('Articles :: handleRowSelection', event, rows, mongoId);
-
-    } else {
-      console.log('Articles :: off');
-      this.setState({
-        shouldShowDelete: false,
-        currentRecordId: null
-      });
-    }
-    */
   }
 
+  /**
+   * @method deleteCurrentRecord
+   */
   deleteCurrentRecord() {
-    console.log('deleteCurrent');
-    Client.deleteArticle(this.state.currentRecordId, (res) => {
-      console.log('record deleted', res);
-      this.props.getArticles.call();
+    deleteArticle(this.state.currentRecordId).then(() => {
+      this.fetchArticles();
+    });
+  }
+
+  /**
+   * Responsible for calling Client.getArticles and setting the articles state to the
+   * response result.
+   *
+   * @method fetchArticles
+   */
+  fetchArticles() {
+    getArticles('').then((articles) => {
+      this.setState({articles: articles});
     });
   }
 
@@ -89,22 +105,26 @@ export default class Articles extends Component {
   render() {
     return (
       <Card>
-        <AddArticleModal ref="myDialog" confirm={this.props.getArticles} />
+        <AddArticleModal ref="myDialog" confirm={this.fetchArticles.bind(this)} />
         <CardHeader
           title="Published Work History"
           subtitle="Based on https://github.com/hayesmaker/react-express-template"
         />
         <CardActions>
-          <FloatingActionButton mini={true} onTouchTap={() => this.refs.myDialog.handleOpen()}>
-            <ContentAdd />
-          </FloatingActionButton>
-          {
-            this.state.shouldShowDelete?
-              <IconButton tooltip="Delete Project" onTouchTap={() => this.deleteCurrentRecord()}>
-                <DeleteForeverIcon fill="white" />
-              </IconButton>: null
-          }
-
+            <div className="row" style={{
+              height: '60px'
+            }}>
+              <FloatingActionButton mini={true} onTouchTap={() => this.refs.myDialog.handleOpen()}>
+                <ContentAdd/>
+              </FloatingActionButton>
+              {
+                this.state.shouldShowDelete?
+                  <IconButton
+                    tooltip="Delete Project" onTouchTap={() => this.deleteCurrentRecord()}>
+                    <DeleteForeverIcon fill="white" />
+                  </IconButton> : null
+              }
+            </div>
         </CardActions>
         <CardText expandable={true}>
           Welcome to my portfolio projects administration table.  You can add, remove, and edit my portfolio arti les.
