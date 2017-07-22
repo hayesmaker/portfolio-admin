@@ -6,8 +6,7 @@
     "start": "concurrently \"npm run db\" \"npm run server\" \"npm run client\"",
     "db": "mongod --dbpath ./data",
     "server": "pm2 start ./bin/www --watch",
-    "client": "babel-node --plugins rewire-exports start-client.js",
-    "ci": "cd client && npm i"
+    "client": "babel-node --plugins rewire-exports start-client.js"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
