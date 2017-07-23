@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const users = require('./routes/users');
 const articles = require('./routes/articles');
 const app = express();
+const process = require('process');
 
 
 // uncomment after placing your favicon in /public
@@ -16,7 +17,9 @@ app.use(cookieParser());
 app.set('json spaces', 2);
 
 const monk = require('monk');
-let db = monk('localhost:27017/test');
+//const db = monk('localhost:27017/test');
+const db = monk(process.env.MY_DB_ENDPOINT);
+
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
