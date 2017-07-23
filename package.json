@@ -6,10 +6,11 @@
     "start:local": "concurrently \"npm run db\" \"npm run server\" \"npm run client\"",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "db": "mongod --dbpath ./data",
-    "server": "pm2 start ./bin/www --watch",
+    "server": "pm2 start ./bin/www -- --watch --kill-timeout 3000",
     "client": "babel-node --plugins rewire-exports start-client.js"
   },
   "dependencies": {
+    "babel-cli": "^6.24.1",
     "body-parser": "~1.15.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
