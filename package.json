@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "local": "concurrently \"npm run db\" \"npm run server\" \"npm run client\"",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "npm run server",
     "db": "mongod --dbpath ./data",
     "server": "pm2 start ./bin/www --watch",
-    "client": "babel-node --plugins rewire-exports start-client.js"
+    "client": "babel-node --plugins rewire-exports start-client.js",
+    "build": "cd client && npm run build"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
