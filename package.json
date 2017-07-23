@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start:local": "concurrently \"npm run db\" \"npm run server\" \"npm run client\"",
+    "prestart": "npm i -g babel-node",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "db": "mongod --dbpath ./data",
     "server": "pm2 start ./bin/www -- --watch --kill-timeout 3000",
