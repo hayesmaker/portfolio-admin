@@ -5,11 +5,10 @@
   "scripts": {
     "local": "concurrently \"npm run db\" \"npm run server\" \"npm run client\"",
     "start": "npm run server",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm i && npm run build",
     "db": "mongod --dbpath ./data",
     "server": "pm2 start ./bin/www --watch",
-    "client": "babel-node --plugins rewire-exports start-client.js",
-    "build": "cd client && npm run build",
-    "postinstall": "cd client && npm i"
+    "client": "babel-node --plugins rewire-exports start-client.js"
   },
   "dependencies": {
     "body-parser": "~1.15.2",

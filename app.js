@@ -6,10 +6,12 @@ const users = require('./routes/users');
 const articles = require('./routes/articles');
 const app = express();
 //const process = require('process');
+const path = require('path');
 
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

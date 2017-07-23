@@ -4,12 +4,12 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "devDependencies": {
+    "react-scripts": "0.8.5",
     "enzyme": "^2.8.2",
     "react-test-renderer": "^15.5.4",
     "sinon": "^2.3.2"
   },
   "dependencies": {
-    "react-scripts": "0.8.5",
     "material-ui": "0.18.1",
     "prop-types": "15.5.8",
     "react": "15.5.4",
@@ -17,7 +17,7 @@
     "react-tap-event-plugin": "2.0.1"
   },
   "scripts": {
-    "local": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --verbose",
     "test:cover": "npm test -- --coverage",
