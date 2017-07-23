@@ -17,7 +17,7 @@
     "react-tap-event-plugin": "2.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "local": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --verbose",
     "test:cover": "npm test -- --coverage",
